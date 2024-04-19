@@ -1,0 +1,123 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/containers/bitarray-0.0.0
+
+title: bitarray
+description: >-
+  A set of boolean results for a given number of bits and shots.
+
+type: object
+definitions:
+  # Definition of ndarray, but without shape as this is inferred from num_bits,
+  # num_shots and bitarray's shape.
+  ndarray-without-shape:
+    type: object
+    properties:
+      source:
+        description: |
+          The source of the data.
+
+          - If an integer: If positive, the zero-based index of the
+            block within the same file. If negative, the index from
+            the last block within the same file.  For example, a
+            source of `-1` corresponds to the last block in the same
+            file.
+
+          - If a string, a URI to an external ASDF file containing the
+            block data.  Relative URIs and ``file:`` and ``http:``
+            protocols must be supported.  Other protocols may be supported
+            by specific library implementations.
+
+          The ability to reference block data in an external ASDF file
+          is intentionally limited to the first block in the external
+          ASDF file, and is intended only to support the needs of
+          [exploded](ref:exploded).  For the more general case of
+          referencing data in an external ASDF file, use tree
+          [references](ref:references).
+
+        anyOf:
+          - type: integer
+          - type: string
+            format: uri
+
+      data:
+        description: |
+          The data for the array inline.
+
+          If `datatype`is also provided, they must match the data here and can
+          be used as a consistency check. `strides`, `offset` and `byteorder`
+          are meaningless when `data` is provided.
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0#/definitions/inline-data"
+
+      datatype:
+        description: |
+          The data format of the array elements.
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0#/definitions/datatype"
+
+      byteorder:
+        description: >
+          The byte order (big- or little-endian) of the array data.
+        type: string
+        enum: [big, little]
+
+      offset:
+        description: >
+          The offset, in bytes, within the data for this start of this
+          view.
+        type: integer
+        minimum: 0
+        default: 0
+
+      strides:
+        description: >
+          The number of bytes to skip in each dimension.  If not provided,
+          the array is assumed by be contiguous and in C order.  If
+          provided, must be the same length as the shape property.
+        type: array
+        items:
+          anyOf:
+            - type: integer
+              minimum: 1
+            - type: integer
+              maximum: -1
+
+      mask:
+        description: >
+          Describes how missing values in the array are stored.  If a
+          scalar number, that number is used to represent missing values.
+          If an ndarray, the given array provides a mask, where non-zero
+          values represent missing values in this array.  The mask array
+          must be broadcastable to the dimensions of this array.
+        anyOf:
+          - type: number
+          - $ref: "http://stsci.edu/schemas/asdf/core/complex-1.0.0"
+          - allOf:
+              - $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+              - datatype: bool8
+
+    dependencies:
+      source: [datatype, byteorder]
+
+    oneOf:
+      - required: [source]
+      - required: [data]
+
+    # TODO: For some reason, including propertyOrder breaks validation.
+    # The error is:
+    # ``AttributeError: 'dict' object has no attribute 'property_order' and no __dict__ for setting new attributes``
+    #
+    # propertyOrder: [source, data, mask, datatype, byteorder, offset, strides]
+
+properties:
+  num_bits:
+    type: integer
+  num_shots:
+    type: integer
+  shape:
+    type: array
+    items:
+      type: integer
+      minimum: 0
+  array:
+    $ref: "#/definitions/ndarray-without-shape"

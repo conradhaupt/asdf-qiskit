@@ -1,0 +1,11 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/core/tuple-0.0.0
+
+title: tuple
+description: >-
+  An array of any valid objects, serialised as an immutable array of the same
+  objects.
+
+type: array

@@ -1,0 +1,49 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/quantum_info/sparsepauliop-0.0.0
+
+title: sparsepauliop
+description: >-
+  A collection of Pauli strings and coefficients, forming a qubit operator in a
+  Pauli-sum decomposition.
+
+type: object
+definitions:
+  inline-paulis:
+    description: |
+      Inline Pauli strings as a list of string values that can only contain "I",
+      "X", "Y", and "Z". The number of characters in each string must be the
+      same. Entries in the list are matched element-by-element to those in the
+      coefficients entry.
+    anyOf:
+      - type: array
+        minItems: 1
+        items:
+          - type: string
+            description: Pauli string.
+            pattern: "^[IZXY]+$"
+  symplectic-paulis:
+    description: |
+      Symplectic representation of Pauli strings, as a sum of X and Y bitmasks.
+      The x and y entries contain ndarrays of an appropriate shape.
+    type: object
+    required: [x, y]
+    properties:
+      x:
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+      z:
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+    propertyOrder: [x, z]
+properties:
+  paulis:
+    anyOf:
+      - $ref: "#/definitions/inline-paulis"
+      - $ref: "#/definitions/symplectic-paulis"
+  coeffs:
+    anyOf:
+      - type: array
+        minItems: 1
+        items:
+          type: number
+      - $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"

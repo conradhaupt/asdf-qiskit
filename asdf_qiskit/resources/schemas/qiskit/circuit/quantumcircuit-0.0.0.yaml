@@ -1,0 +1,22 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/circuit/quantumcircuit-0.0.0
+
+title: QuantumCircuit
+description: >-
+  A quantum circuit serialised into a QPY file, stored in a numpy array.
+
+type: object
+properties:
+  name:
+    type: string
+  num_qubits:
+    type: integer
+  num_clbits:
+    type: integer
+  qpy:
+    $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+  metadata:
+    type: object
+required: ["name", "num_qubits", "num_clbits", "qpy"]

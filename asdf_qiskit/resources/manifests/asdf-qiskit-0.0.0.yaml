@@ -1,0 +1,38 @@
+%YAML 1.1
+---
+id: asdf://qiskit.org/asdf/manifests/asdf-qiskit-0.0.0
+extension_uri: asdf://qiskit.org/asdf/extensions/asdf-qiskit-0.0.0
+title: ASDF Extension for Qiskit
+description: Extension for handling Qiskit and other Quantum Data
+asdf_standard_requirement:
+  gte: 1.6.0
+tags:
+  # Override base schema to move uuid and date_created to the top of asdf files.
+  # Core Types
+  - tag_uri: asdf://qiskit.org/asdf/tags/core/tuple-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/core/tuple-0.0.0
+  - tag_uri: asdf://qiskit.org/asdf/tags/core/uuid-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/core/uuid-0.0.0
+  # *** Qiskit
+  # Circuits
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/circuit/quantumcircuit-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/circuit/quantumcircuit-0.0.0
+  # Primitive Containers
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/containers/bitarray-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/containers/bitarray-0.0.0
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/containers/databin-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/containers/databin-0.0.0
+  # Primitive Results
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/containers/pub-result-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/containers/pub-result-0.0.0
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/containers/primitive-result-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/containers/primitive-result-0.0.0
+  # Quantum Info
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/quantum_info/sparsepauliop-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/quantum_info/sparsepauliop-0.0.0
+  - tag_uri: asdf://qiskit.org/asdf/tags/qiskit/quantum_info/paulilist-0.0.0
+    schema_uri: asdf://qiskit.org/asdf/schemas/qiskit/quantum_info/paulilist-0.0.0
+# yaml_tag_handles are not supported by ManifestExtension, but we define it here
+# as well so other software need only process the manifest.
+yaml_tag_handles:
+  "!qiskit!": "asdf://qiskit.org/asdf/tags/"

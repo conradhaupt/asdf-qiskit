@@ -1,0 +1,45 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/quantum_info/paulilist-0.0.0
+
+title: PauliList
+description: >-
+  A list of Pauli strings either as explicit Pauli strings or symplectic arrays.
+
+type: object
+definitions:
+  inline-paulis:
+    description: |
+      Inline Pauli strings as a list of string values that can only contain "I",
+      "X", "Y", and "Z". Phases are denoted with characters "+-ij". No phase is
+      equivalent to "+". The number of Pauli characters in each string,
+      excluding signs, must be the same. There can be duplicate Pauli strings.
+    type: object
+    properties:
+      paulis:
+        type: array
+        minItems: 1
+        items:
+          - description: Pauli string.
+            type: string
+            pattern: "^[+-]?[ij]?[IZXY]+$"
+  symplectic-paulis:
+    description: |
+      Symplectic representation of Pauli strings, as a sum of X and Y bitmasks
+      with phases. Phases are the integers k=0,1,2,3; and index the complex
+      phases from [1, -1j, -1, 1j]. The x, y, and phase entries contain ndarrays
+      of an appropriate shape.
+    type: object
+    required: [x, y, phase]
+    properties:
+      x:
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+      z:
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+      phase:
+        $ref: "http://stsci.edu/schemas/asdf/core/ndarray-1.1.0"
+    propertyOrder: [x, z, phase]
+anyOf:
+  - $ref: "#/definitions/inline-paulis"
+  - $ref: "#/definitions/symplectic-paulis"

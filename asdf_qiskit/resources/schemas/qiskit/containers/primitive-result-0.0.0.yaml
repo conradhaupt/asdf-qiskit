@@ -1,0 +1,19 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/containers/primitiveresult-0.0.0
+
+title: PrimitiveResult
+description: >-
+  A list of results from some primitive execution.
+
+type: object
+properties:
+  pub_results:
+    description: The main data for the result. Can be anything.
+    type: array
+    items:
+      type: object
+  metadata:
+    description: Metadata, typically primitive datatypes, describing the result. Can be anything.
+    type: object

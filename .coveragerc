@@ -1,0 +1,10 @@
+[run]
+branch = true
+omit =
+    ; Ignore tools that are python scripts
+    ./tools/*
+    ; We don't really care about testing the pytest plugin. Maybe we add tests later.
+    ./asdf-qiskit/pytest_asdf_fixtures/*
+    ; We don't test our tests.
+    ./asdf-qiskit/tests/**/*
+command_line = -m pytest

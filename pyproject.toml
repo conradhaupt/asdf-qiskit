@@ -1,0 +1,92 @@
+[project]
+  authors = [{email = "conrad@conradhaupt.com", name = "Conrad Haupt"}]
+  classifiers = [
+    "Development Status :: 1 - Planning",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python",
+    "Topic :: Database",
+    "Topic :: File Formats",
+    "Topic :: Scientific/Engineering :: Quantum Computing",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Software Development :: Libraries",
+  ]
+  dependencies = [
+    "PyYAML>=6.0.2", # Require PyYaml versions that support 3.13
+    "asdf>=4.1.0",
+    "qiskit>=2.0.0",
+  ]
+  description = "Serialise Qiskit objects with ASDF."
+  dynamic = ["version"]
+  license = {file = "LICENSE.txt"}
+  maintainers = [{email = "conrad@conradhaupt.com", name = "Conrad Haupt"}]
+  name = "asdf-qiskit"
+  readme = "README.md"
+  requires-python = ">=3.10"
+
+[project.optional-dependencies]
+  dev     = ["asdf-qiskit[docs,tests]"]
+  docs    = ["furo", "sphinx", "sphinx_design"]
+  runtime = ["qiskit-ibm-runtime>=0.31.0"]
+  tests   = ["ddt==1.7.2", "pytest", "pytest-asdf-plugin", "pytest-cov", "ruff"]
+
+[project.urls]
+  Documentation = "https://github.com/conradhaupt/asdf_qiskit#readme"
+  Issues        = "https://github.com/conradhaupt/asdf_qiskit/issues"
+  Source        = "https://github.com/conradhaupt/asdf_qiskit/tree/main/asdf-qiskit"
+
+[project.entry-points]
+  "asdf.extensions"        = {asdf-qiskit = 'asdf_qiskit.extension:get_extensions'}
+  "asdf.resource_mappings" = {asdf-qiskit = 'asdf_qiskit.resources:get_resource_mappings'}
+  "pytest11"               = {pytest_asdf_fixtures = "pytest_asdf_fixtures"}
+
+[build-system]
+  build-backend = "poetry.core.masonry.api"
+  requires      = ["poetry-core>=2.0.0,<3.0.0"]
+
+[tool.poetry]
+  packages = [{from = ".", include = "asdf_qiskit"}, {from = ".", include = "pytest_asdf_fixtures"}]
+  version  = "0.0.0"
+
+[tool.poetry.requires-plugins]
+  poetry-dynamic-versioning = {extras = ["plugin"], version = ">=1.0.0,<2.0.0"}
+
+[tool.poetry-dynamic-versioning]
+  enable = true
+  style  = "semver"
+  vcs    = "git"
+
+[tool.pytest.ini_options]
+  addopts                   = "-W error"
+  asdf_schema_root          = 'asdf_qiskit/resources/schemas/'
+  asdf_schema_tests_enabled = 'true'
+
+[tool.pyright]
+  # Target 3.10, the minimum version we support.
+  pythonVersion          = "3.10"
+  reportMissingTypeStubs = false
+  typeCheckingMode       = "basic"
+
+[tool.ruff.lint]
+  preview = true
+  select = [
+    # Rules in alphabetic order
+    "C4",     # category: flake8-comprehensions
+    "CPY001", # missing-copyright-notice (see flake8-copyright setting)
+    "EXE",    # Category: flake8-executable
+    "F631",   # assert-tuple
+    "F632",   # is-literal
+    "F634",   # if-tuple
+    "F823",   # undefined-local
+    "G",      # flake8-logging-format
+    "T10",    # category: flake8-debugger
+  ]
+[tool.ruff.lint.flake8-copyright]
+  author = "Conrad Haupt <conrad@conradhaupt.com> and IBM"

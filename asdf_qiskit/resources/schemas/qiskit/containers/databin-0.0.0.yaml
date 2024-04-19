@@ -1,0 +1,24 @@
+%YAML 1.1
+---
+$schema: http://stsci.edu/schemas/yaml-schema/draft-01
+id: asdf://qiskit.org/asdf/schemas/qiskit/containers/databin-0.0.0
+
+title: DataBin
+description: >-
+  A shaped collection of data. The shape of the DataBin defines the leading
+  shape of all other "shaped" values.
+
+type: object
+properties:
+  shape:
+    description: >-
+      The shape of the DataBin, constraining the first few dimensions of the
+      other shaped values.
+    anyOf:
+      - type: array
+        items:
+          - type: integer
+      - $ref: asdf://qiskit.org/asdf/schemas/core/tuple-0.0.0
+        items: integer
+
+propertyOrder: [shape]
