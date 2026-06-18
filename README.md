@@ -26,10 +26,11 @@ newer versions of Qiskit and Python.
 
 In the near future, we will publish `asdf-qiskit` to PyPI. Until then, if you
 would like to try `asdf-qiskit` you can run the command, below, and then use
-ASDF as normal.
+ASDF as normal. **Note that the current version is 0.0.0. The first "release"
+0.1.0 will occur very soon.**
 
 ```bash
-pip install "git+ssh://git@github.com/conradhaupt/asdf-qiskit.git@release/0.1"
+pip install "git+ssh://git@github.com/conradhaupt/asdf-qiskit.git@main"
 ```
 
 ### Dependencies
