@@ -1,3 +1,12 @@
+[build-system]
+  build-backend = "uv_build"
+  requires      = ["uv_build>=0.10.3,<0.11.0"]
+
+[tool.uv.build-backend]
+  module-name = "asdf_qiskit"
+  module-root = ""
+
+
 [project]
   authors = [{email = "conrad@conradhaupt.com", name = "Conrad Haupt"}]
   classifiers = [
@@ -24,18 +33,27 @@
     "qiskit>=2.0.0",
   ]
   description = "Serialise Qiskit objects with ASDF."
-  dynamic = ["version"]
   license = {file = "LICENSE.txt"}
   maintainers = [{email = "conrad@conradhaupt.com", name = "Conrad Haupt"}]
   name = "asdf-qiskit"
   readme = "README.md"
   requires-python = ">=3.10"
+  version = "0.0.0"
 
-[project.optional-dependencies]
-  dev     = ["asdf-qiskit[docs,tests]"]
-  docs    = ["furo", "sphinx", "sphinx_design"]
+[dependency-groups]
+  dev = [
+    "ddt==1.7.2",
+    "furo",
+    "pytest",
+    "pytest-asdf-plugin",
+    "pytest-cov",
+    "ruff",
+    "sphinx",
+    "sphinx_design",
+  ]
+  docs = ["furo", "sphinx", "sphinx_design"]
   runtime = ["qiskit-ibm-runtime>=0.31.0"]
-  tests   = ["ddt==1.7.2", "pytest", "pytest-asdf-plugin", "pytest-cov", "ruff"]
+  tests = ["ddt==1.7.2", "pytest", "pytest-asdf-plugin", "pytest-cov", "ruff"]
 
 [project.urls]
   Documentation = "https://github.com/conradhaupt/asdf_qiskit#readme"
@@ -46,22 +64,6 @@
   "asdf.extensions"        = {asdf-qiskit = 'asdf_qiskit.extension:get_extensions'}
   "asdf.resource_mappings" = {asdf-qiskit = 'asdf_qiskit.resources:get_resource_mappings'}
   "pytest11"               = {pytest_asdf_fixtures = "pytest_asdf_fixtures"}
-
-[build-system]
-  build-backend = "poetry.core.masonry.api"
-  requires      = ["poetry-core>=2.0.0,<3.0.0"]
-
-[tool.poetry]
-  packages = [{from = ".", include = "asdf_qiskit"}, {from = ".", include = "pytest_asdf_fixtures"}]
-  version  = "0.0.0"
-
-[tool.poetry.requires-plugins]
-  poetry-dynamic-versioning = {extras = ["plugin"], version = ">=1.0.0,<2.0.0"}
-
-[tool.poetry-dynamic-versioning]
-  enable = true
-  style  = "semver"
-  vcs    = "git"
 
 [tool.pytest.ini_options]
   addopts                   = "-W error"
